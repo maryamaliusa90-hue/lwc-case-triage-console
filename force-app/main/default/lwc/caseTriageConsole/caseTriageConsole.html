@@ -1,0 +1,38 @@
+<template>
+  <lightning-card title="Case Triage" icon-name="standard:case">
+    <div slot="actions" class="slds-grid slds-gutters_x-small">
+      <lightning-combobox
+        class="priority-filter"
+        label="Priority"
+        variant="label-hidden"
+        value={priority}
+        options={priorityOptions}
+        onchange={handlePriorityChange}
+      ></lightning-combobox>
+      <lightning-button
+        class="assign-button slds-m-left_x-small"
+        label="Assign to me"
+        variant="brand"
+        disabled={isAssignDisabled}
+        onclick={handleAssign}
+      ></lightning-button>
+    </div>
+
+    <template lwc:if={error}>
+      <div class="error slds-p-around_medium slds-text-color_error" role="alert">{error}</div>
+    </template>
+
+    <template lwc:if={hasCases}>
+      <lightning-datatable
+        key-field="Id"
+        data={rows}
+        columns={columns}
+        onrowselection={handleRowSelection}
+      ></lightning-datatable>
+    </template>
+
+    <template lwc:if={isEmpty}>
+      <p class="empty slds-p-around_medium">No open cases match this filter.</p>
+    </template>
+  </lightning-card>
+</template>
